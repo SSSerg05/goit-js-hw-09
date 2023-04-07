@@ -2,8 +2,7 @@
   "name": "goit-js-hw-09",
   "description": "js-2.0 home work #9",
   "version": "1.0.0",
-  "main": "index.js",
-  "source": "src/*.html",
+   "source": "src/*.html",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "parcel src/*.html",
