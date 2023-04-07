@@ -1,5 +1,26 @@
 {
-  "dependencies": {
+  "name": "goit-js-hw-09",
+  "description": "js-2.0 home work #9",
+  "version": "1.0.0",
+  "main": "index.js",
+  "source": "src/*.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "parcel src/*.html",
+    "dev": "parcel src/*.html",
+    "build": "parcel build src/*.html --public-url /goit-js-hw-09/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SSSerg05/goit-js-hw-09.git"
+  },
+  "author": "SSerg",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SSSerg05/goit-js-hw-09/issues"
+  },
+  "homepage": "https://github.com/SSSerg05/goit-js-hw-09#readme",
+  "devDependencies": {
     "parcel": "^2.8.3"
   }
 }
