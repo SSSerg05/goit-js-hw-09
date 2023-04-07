@@ -18,7 +18,7 @@
   "bugs": {
     "url": "https://github.com/SSSerg05/goit-js-hw-09/issues"
   },
-  "homepage": "https://github.com/SSSerg05/goit-js-hw-09#readme",
+  "homepage": "https://github.com/SSSerg05/goit-js-hw-09",
   "devDependencies": {
     "parcel": "^2.8.3"
   }
