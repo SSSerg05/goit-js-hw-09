@@ -4,26 +4,26 @@ import flatpickr from "flatpickr";
 import "flatpickr/dist/flatpickr.min.css";
 import "flatpickr/dist/themes/dark.css";
 import { Ukraine } from "flatpickr/dist/l10n/uk.js"
-import throttle from 'lodash.throttle'
 
 // function init() {
 let selectTime = 0;
 let timerId = 0;
   
+const refs = {
+  dtPicker: document.querySelector('#datetime-picker'),
+  btnStart: document.querySelector('button[data-start]'),
+
+  dtDays: document.querySelector('.value[data-days]'),
+  dtHours: document.querySelector('.value[data-hours]'),
+  dtMinutes: document.querySelector('.value[data-minutes]'),
+  dtSeconds: document.querySelector('.value[data-seconds]'),
   
-
-  const refs = {
-    dtPicker: document.querySelector('#datetime-picker'),
-    btnStart: document.querySelector('button[data-start]'),
-
-    dtDays: document.querySelector('.value[data-days]'),
-    dtHours: document.querySelector('.value[data-hours]'),
-    dtMinutes: document.querySelector('.value[data-minutes]'),
-    dtSeconds: document.querySelector('.value[data-seconds]'),
-  }
+  dtDate: document.querySelectorAll('.value'),
+}
   
-  refs.btnStart.addEventListener('click', throttle(onStartClick, 1000))
-
+refs.btnStart.addEventListener('click', onStartClick);
+  
+function init() {
   const options = {
     enableTime: true,
     time_24hr: true,
@@ -46,44 +46,43 @@ let timerId = 0;
 
       // активую кнопку Старт
       refs.btnStart.disabled = false;
-      console.log('button active');
-      timerId = setInterval(onStartClick, 1000)
     },
   };
 
   // деактивую кнопку Старт
   refs.btnStart.disabled = true;
   flatpickr(refs.dtPicker, options);
+}
+init();
 
 // клік по кнопці Старт
 function onStartClick() { 
  // деактивую кнопку Старт
   refs.btnStart.disabled = true;
- 
   // виводимо час
-  setCurrentTime(selectTime);
+  timerId = setInterval(setCurrentTimer, 1000, selectTime)
 }
 
-// }
 
-// init();
-
-
-function setCurrentTime(time) { 
+function setCurrentTimer(time) { 
   const timeNow = new Date().getTime();
-  const deltaTime = time <= timeNow ? 0: time - timeNow ;
-  const timeObj = convertMs(deltaTime);
+  const deltaTime = (time <= timeNow) ? 0: time - timeNow ;
+  const timeObj {days, hours } = convertMs(deltaTime);
+ 
 
   if (deltaTime === 0) {
     clearInterval(timerId);
   }
 
-  refs.dtDays.textContent = timeObj.days
-  refs.dtHours.textContent = timeObj.hours
-  refs.dtMinutes.textContent = timeObj.minutes
-  refs.dtSeconds.textContent = timeObj.seconds
-  
+  refs.dtDays.textContent = zeroPad(timeObj.days);
+  refs.dtHours.textContent = zeroPad(timeObj.hours);
+  refs.dtMinutes.textContent = zeroPad(timeObj.minutes);
+  refs.dtSeconds.textContent = zeroPad(timeObj.seconds);
   return true;
+}
+
+function zeroPad(number) {
+  return number.toString().padStart(2, "0");
 }
 
 function convertMs(ms) {
