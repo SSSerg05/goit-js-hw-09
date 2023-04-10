@@ -5,7 +5,7 @@ import "flatpickr/dist/flatpickr.min.css";
 import "flatpickr/dist/themes/dark.css";
 import { Ukraine } from "flatpickr/dist/l10n/uk.js"
 
-// function init() {
+
 let selectTime = 0;
 let timerId = 0;
   
@@ -14,7 +14,6 @@ const refs = {
   btnStart: document.querySelector('button[data-start]'),
   dtData: document.querySelectorAll('.value'),
 }
-  
 
 refs.btnStart.addEventListener('click', onStartClick);
   
@@ -30,9 +29,11 @@ function init() {
 
     onClose(selectedDates) {
       console.log(selectedDates[0]);
+
       const timeNow = new Date().getTime();
       selectTime = selectedDates[0].getTime();
 
+      // перевірка на минулу дату
       if (selectTime < timeNow) {
         window.alert("Please choose a date in the future")
         return
@@ -56,13 +57,13 @@ function onStartClick() {
  // деактивую кнопку Старт
   refs.btnStart.disabled = true;
   // виводимо час
-  timerId = setInterval(setCurrentTimer, 1000, selectTime)
+  timerId = setInterval(outCurrentTimer, 1000, selectTime)
 }
 
 
 //!====================
-function setCurrentTimer(time) { 
-  // перевіряємо на 0 та виводимо час
+function outCurrentTimer(time) { 
+  // перевіряємо на <= 0 та виводимо час
 
   const timeNow = new Date().getTime();
   const deltaTime = time - timeNow ;
@@ -76,7 +77,7 @@ function setCurrentTimer(time) {
   const data = Object.values(timeObj);
 
   Array.from(refs.dtData)
-    .map((item, key) => { item.textContent = zeroPad(data[key]) })
+    .for((item, key) => { item.textContent = zeroPad(data[key]) })
 
   return true;
 }
