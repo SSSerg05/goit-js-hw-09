@@ -2,13 +2,12 @@
   "name": "goit-js-hw-09",
   "description": "js-2.0 home work #9",
   "version": "1.0.0",
-   "source": "src/*.html",
+  "source": "src/*.html",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "parcel src/*.html",
     "dev": "parcel src/*.html",
     "build": "parcel build src/*.html --public-url /"
-
   },
   "repository": {
     "type": "git",
@@ -22,5 +21,9 @@
   "homepage": "https://github.com/SSSerg05/goit-js-hw-09",
   "devDependencies": {
     "parcel": "^2.8.3"
+  },
+  "dependencies": {
+    "flatpickr": "^4.6.13",
+    "lodash.throttle": "^4.1.1"
   }
 }
