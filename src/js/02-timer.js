@@ -6,21 +6,23 @@ import "flatpickr/dist/themes/dark.css";
 import { Ukraine } from "flatpickr/dist/l10n/uk.js"
 import throttle from 'lodash.throttle'
 
-function init() {
-  let selectTime = 0;
+// function init() {
+let selectTime = 0;
+let timerId = 0;
+  
+  
 
   const refs = {
     dtPicker: document.querySelector('#datetime-picker'),
     btnStart: document.querySelector('button[data-start]'),
 
-    dtDays: document.querySelector('.timer[data-days]'),
-    dtHours: document.querySelector('.timer[data-hours]'),
-    dtMinutes: document.querySelector('.timer[data-minutes]'),
-    dtSeconds: document.querySelector('.timer[data-seconds]'),
+    dtDays: document.querySelector('.value[data-days]'),
+    dtHours: document.querySelector('.value[data-hours]'),
+    dtMinutes: document.querySelector('.value[data-minutes]'),
+    dtSeconds: document.querySelector('.value[data-seconds]'),
   }
-
+  
   refs.btnStart.addEventListener('click', throttle(onStartClick, 1000))
-
 
   const options = {
     enableTime: true,
@@ -45,38 +47,42 @@ function init() {
       // активую кнопку Старт
       refs.btnStart.disabled = false;
       console.log('button active');
+      timerId = setInterval(onStartClick, 1000)
     },
   };
 
   // деактивую кнопку Старт
   refs.btnStart.disabled = true;
   flatpickr(refs.dtPicker, options);
-}
-
-init();
 
 // клік по кнопці Старт
-const onStartClick = () => { 
-  // деактивую кнопку Старт
+function onStartClick() { 
+ // деактивую кнопку Старт
   refs.btnStart.disabled = true;
-  
+ 
   // виводимо час
   setCurrentTime(selectTime);
 }
 
+// }
+
+// init();
+
+
 function setCurrentTime(time) { 
   const timeNow = new Date().getTime();
-  const deltaTime = time - timeNow;
-  const timeObj = {}
-  if (deltaTime <= 0) {
-    timeObj = convertMs(0)
+  const deltaTime = time <= timeNow ? 0: time - timeNow ;
+  const timeObj = convertMs(deltaTime);
+
+  if (deltaTime === 0) {
+    clearInterval(timerId);
   }
 
-  timeObj = convertMs(time)
   refs.dtDays.textContent = timeObj.days
   refs.dtHours.textContent = timeObj.hours
   refs.dtMinutes.textContent = timeObj.minutes
   refs.dtSeconds.textContent = timeObj.seconds
+  
   return true;
 }
 
