@@ -12,15 +12,10 @@ let timerId = 0;
 const refs = {
   dtPicker: document.querySelector('#datetime-picker'),
   btnStart: document.querySelector('button[data-start]'),
-
-  dtDays: document.querySelector('.value[data-days]'),
-  dtHours: document.querySelector('.value[data-hours]'),
-  dtMinutes: document.querySelector('.value[data-minutes]'),
-  dtSeconds: document.querySelector('.value[data-seconds]'),
-  
-  dtDate: document.querySelectorAll('.value'),
+  dtData: document.querySelectorAll('.value'),
 }
   
+
 refs.btnStart.addEventListener('click', onStartClick);
   
 function init() {
@@ -30,7 +25,6 @@ function init() {
     defaultDate: new Date(),
     minuteIncrement: 1,
     locale: 'uk',
-    // wrap: true,
     firstDayOfWeek: 1,
     dateFormat: "d.m.Y H:i",
 
@@ -55,7 +49,9 @@ function init() {
 }
 init();
 
+
 // клік по кнопці Старт
+//!====================
 function onStartClick() { 
  // деактивую кнопку Старт
   refs.btnStart.disabled = true;
@@ -64,24 +60,29 @@ function onStartClick() {
 }
 
 
+//!====================
 function setCurrentTimer(time) { 
-  const timeNow = new Date().getTime();
-  const deltaTime = (time <= timeNow) ? 0: time - timeNow ;
-  const timeObj {days, hours } = convertMs(deltaTime);
- 
+  // перевіряємо на 0 та виводимо час
 
-  if (deltaTime === 0) {
+  const timeNow = new Date().getTime();
+  const deltaTime = time - timeNow ;
+
+  if (deltaTime < 0) {
     clearInterval(timerId);
+    return false
   }
 
-  refs.dtDays.textContent = zeroPad(timeObj.days);
-  refs.dtHours.textContent = zeroPad(timeObj.hours);
-  refs.dtMinutes.textContent = zeroPad(timeObj.minutes);
-  refs.dtSeconds.textContent = zeroPad(timeObj.seconds);
+  const timeObj = convertMs(deltaTime);
+  const data = Object.values(timeObj);
+
+  Array.from(refs.dtData)
+    .map((item, key) => { item.textContent = zeroPad(data[key]) })
+
   return true;
 }
 
 function zeroPad(number) {
+  // 2 zero in out-numberStr
   return number.toString().padStart(2, "0");
 }
 
