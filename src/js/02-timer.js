@@ -62,11 +62,11 @@ function onStartClick() {
 
 
 //!====================
-function outCurrentTimer(time) { 
+function outCurrentTimer(time) {
   // перевіряємо на <= 0 та виводимо час
 
   const timeNow = new Date().getTime();
-  const deltaTime = time - timeNow ;
+  const deltaTime = time - timeNow;
 
   if (deltaTime < 0) {
     clearInterval(timerId);
@@ -74,12 +74,24 @@ function outCurrentTimer(time) {
   }
 
   const timeObj = convertMs(deltaTime);
-  const data = Object.values(timeObj);
 
-  Array.from(refs.dtData)
-    .for((item, key) => { item.textContent = zeroPad(data[key]) })
+  // const data = Object.values(timeObj);
+  // Array.from(refs.dtData)
+  //   .forEach((item, key) => { item.textContent = zeroPad(data[key]) })
 
-  return true;
+  const data = Object.entries(timeObj);
+  Array.from(refs.dtData).forEach((item) => {
+    const keys = Object.keys(item.dataset);
+
+    keys.forEach((key) => {
+      data.find(([k, v]) => {
+        if (k === key) {
+          item.textContent = zeroPad(v)
+        }
+      })
+    })
+  })
+    
 }
 
 function zeroPad(number) {
