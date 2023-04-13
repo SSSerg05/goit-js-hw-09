@@ -5,6 +5,9 @@ import "flatpickr/dist/flatpickr.min.css";
 import "flatpickr/dist/themes/dark.css";
 import { Ukraine } from "flatpickr/dist/l10n/uk.js"
 
+// all modules
+import Notiflix from 'notiflix';
+
 
 let selectTime = 0;
 let timerId = 0;
@@ -35,7 +38,14 @@ function init() {
 
       // перевірка на минулу дату
       if (selectTime < timeNow) {
-        window.alert("Please choose a date in the future")
+        Notiflix.Notify.warning(
+          "Please choose a date in the future",
+          {
+            timeout: 6000,
+          }
+        );
+
+//        window.alert("Please choose a date in the future")
         return
       }
 
@@ -81,12 +91,10 @@ function outCurrentTimer(time) {
 
   const data = Object.entries(timeObj);
   Array.from(refs.dtData).forEach((item) => {
-    const keys = Object.keys(item.dataset);
-
-    keys.forEach((key) => {
+    Object.keys(item.dataset).forEach((key) => {
       data.find(([k, v]) => {
         if (k === key) {
-          item.textContent = zeroPad(v)
+          item.textContent = addLeadingZero(v)
         }
       })
     })
@@ -94,7 +102,7 @@ function outCurrentTimer(time) {
     
 }
 
-function zeroPad(number) {
+function addLeadingZero(number) {
   // 2 zero in out-numberStr
   return number.toString().padStart(2, "0");
 }
