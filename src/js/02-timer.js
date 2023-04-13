@@ -112,15 +112,15 @@ function outTimer(time) {
   // ідеальні умови...
   // const data = Object.values(timeObj);
   // Array.from(refs.dtData)
-  //   .forEach((item, key) => { item.textContent = zeroPad(data[key]) })
+  //   .forEach((item, key) => { item.textContent = addLeadingZero(data[key]) })
 
   // реальні...
   const data = Object.entries(timeObj);
   Array.from(refs.dtData).forEach((item) => {
     Object.keys(item.dataset).forEach((key) => {
-      data.find(([k, v]) => {
+      data.find(([k, value]) => {
         if (k === key) {
-          item.textContent = addLeadingZero(v)
+          item.textContent = addLeadingZero(value)
         }
       })
     })
