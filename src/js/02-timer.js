@@ -38,6 +38,7 @@ function init() {
 
       // перевірка на минулу дату
       if (selectTime < timeNow) {
+        // window.alert("Please choose a date in the future")
         Notiflix.Notify.warning(
           "Please choose a date in the future",
           {
@@ -45,8 +46,21 @@ function init() {
           }
         );
 
-//        window.alert("Please choose a date in the future")
         return
+      }
+
+      // перезапуск таймера
+      if (timerId !== 0) {
+        clearInterval(timerId);
+        timerId = 0;
+        outTimer(0);
+        Notiflix.Notify.info(
+          "Restart timer",
+          {
+            timeout: 6000,
+          }
+        );
+
       }
 
       // активую кнопку Старт
@@ -67,12 +81,12 @@ function onStartClick() {
  // деактивую кнопку Старт
   refs.btnStart.disabled = true;
   // виводимо час
-  timerId = setInterval(outCurrentTimer, 1000, selectTime)
+  timerId = setInterval(calcCurrentTimer, 1000, selectTime)
 }
 
 
 //!====================
-function outCurrentTimer(time) {
+function calcCurrentTimer(time) {
   // перевіряємо на <= 0 та виводимо час
 
   const timeNow = new Date().getTime();
@@ -80,15 +94,27 @@ function outCurrentTimer(time) {
 
   if (deltaTime < 0) {
     clearInterval(timerId);
+    Notiflix.Notify.success(
+      "Timer off",
+      {
+        timeout: 6000,
+      }
+    );
     return false
   }
+  outTimer(deltaTime);
+}
 
-  const timeObj = convertMs(deltaTime);
+function outTimer(time) { 
+  // виводимо в браузер значення таймеру
+  const timeObj = convertMs(time);
 
+  // ідеальні умови...
   // const data = Object.values(timeObj);
   // Array.from(refs.dtData)
   //   .forEach((item, key) => { item.textContent = zeroPad(data[key]) })
 
+  // реальні...
   const data = Object.entries(timeObj);
   Array.from(refs.dtData).forEach((item) => {
     Object.keys(item.dataset).forEach((key) => {
