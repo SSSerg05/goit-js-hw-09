@@ -2,16 +2,24 @@
 function init() { 
   const body = document.body;
   let timerId = null;
+  const btnStart = body.querySelector('button[data-start]');
+  const btnStop = body.querySelector('button[data-stop]');
+
+  btnStop.disabled = true;
 
   body.addEventListener('click', (event) => { 
 
     if ('start' in event.target.dataset) {
+      btnStop.disabled = false;
+      btnStart.disabled = true;
 
       if (!timerId) {
         timerId = setInterval(onStart, 1000, body);
       }
 
     } else if ('stop' in event.target.dataset) {
+      btnStop.disabled = true;
+      btnStart.disabled = false;
 
       if (timerId) {
         clearInterval(timerId);

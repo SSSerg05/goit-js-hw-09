@@ -9,9 +9,9 @@ function createPromise(position, delay) {
 
     setTimeout(() => {
       if (shouldResolve) {
-        resolve('yes'); //Notiflix.Notify.success(`✅ Fulfilled promise ${position} in ${delay}ms`)); 
+        resolve(Notiflix.Notify.success(`✅ Fulfilled promise ${position} in ${delay}ms`)); 
       } else {
-        reject('no'); //Notiflix.Notify.warning(`❌ Rejected promise ${position} in ${delay}ms`));
+        reject(Notiflix.Notify.warning(`❌ Rejected promise ${position} in ${delay}ms`));
       }
     }, delay);
 
@@ -35,15 +35,10 @@ function onSubmitForm(event) {
 
   for (let i = 0; i < Number(refs.amount.value); i++) {
     
-    createPromise(i, step)
-      .then(({ i, step }) => {
-        Notiflix.Notify.success(`✅ Fulfilled promise ${i} in ${step}ms`)
-        console.log(`✅ Fulfilled promise ${i} in ${step}ms`);
-      })
-      .catch(({ i, step }) => {
-        Notiflix.Notify.warning(`❌ Rejected promise ${i} in ${step}ms`)
-        console.log(`❌ Rejected promise ${i} in ${step}ms`);
-      });
+    let str = createPromise(i, step)
+      .then(( i, step ) => {      })
+      .catch(( i, step ) => {      });
+      
     step += Number(refs.step.value)
   } 
 }
