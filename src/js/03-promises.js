@@ -11,7 +11,7 @@ function createPromise(position, delay) {
       if (shouldResolve) {
         resolve(Notiflix.Notify.success(`✅ Fulfilled promise ${position} in ${delay}ms`)); 
       } else {
-        reject(Notiflix.Notify.warning(`❌ Rejected promise ${position} in ${delay}ms`));
+        reject(Notiflix.Notify.failure(`❌ Rejected promise ${position} in ${delay}ms`));
       }
     }, delay);
 
@@ -38,7 +38,7 @@ function onSubmitForm(event) {
     let str = createPromise(i, step)
       .then(( i, step ) => {      })
       .catch(( i, step ) => {      });
-      
+
     step += Number(refs.step.value)
   } 
 }
